@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         DuckDuckGo to Google Button
 // @namespace    https://github.com/MikeZeDev/DuckDuckGoToGoogleButton
-// @version      0.1.2
+// @version      0.1.3
 // @description  Displays a button on DuckDuckGo that redirects to the same search on Google.
 // @author       MikeZeDev ( original author : Hans Puac)
 // @match        https://duckduckgo.com/*
-// @run-at       document-end
+// @run-at       document-start
 // ==/UserScript==
 
 (function () {
@@ -38,10 +38,23 @@
         window.location.href = url.href;
     };
 
-    const duckbar = document.getElementById('react-duckbar').querySelector('ul');
-    if (duckbar !== null) {
-        const image = generateImage();
-        duckbar.prepend(image);
-        image.addEventListener('click', redirect);
-    }
+    const observerOptions = {
+        childList: true,
+        subtree: true,
+    };
+
+    const checkforduckbar = function (records, observer) {
+        if (document.getElementById('react-duckbar').querySelector('ul')) {
+            const duckbar = document.getElementById('react-duckbar')?.querySelector('ul');
+            const image = generateImage();
+            duckbar.prepend(image);
+            image.addEventListener('click', redirect);
+            observer.disconnect();
+        }
+
+    };
+
+    const observer = new MutationObserver(checkforduckbar);
+    observer.observe(document.documentElement, observerOptions);
+
 })();
