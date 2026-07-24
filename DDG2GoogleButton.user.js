@@ -5,6 +5,7 @@
 // @description  Displays a button on DuckDuckGo that redirects to the same search on Google.
 // @author       MikeZeDev ( original author : Hans Puac)
 // @match        https://duckduckgo.com/*
+// @match        https://noai.duckduckgo.com/*
 // @run-at       document-start
 // ==/UserScript==
 
